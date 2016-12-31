@@ -28,6 +28,10 @@ Install pyfingerprint:
     ~$ python setup.py build
     ~$ python setup.py install    
     
+On a linux machine, you may additionally choose to run the following commands to allow non-root user to use the serial port
+
+    ~$ sudo usermod -a -G dialout $USER
+    ~$ sudo reboot
 
 ## Alternative Installation (Debian)
 
