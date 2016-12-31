@@ -10,7 +10,7 @@ All rights reserved.
 """
 
 import tempfile
-from pyfingerprint.pyfingerprint import PyFingerprint
+from pyfingerprint.pyfingerprint import PyFingerprint, FINGERPRINT_DEVICE_LOCATION
 
 
 ## Reads image and download it
@@ -18,7 +18,7 @@ from pyfingerprint.pyfingerprint import PyFingerprint
 
 ## Tries to initialize the sensor
 try:
-    f = PyFingerprint('/dev/ttyUSB0', 57600, 0xFFFFFFFF, 0x00000000)
+    f = PyFingerprint(FINGERPRINT_DEVICE_LOCATION, 57600, 0xFFFFFFFF, 0x00000000)
 
     if ( f.verifyPassword() == False ):
         raise ValueError('The given fingerprint sensor password is wrong!')
