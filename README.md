@@ -1,13 +1,39 @@
-# Python library for ZFM-20 fingerprint sensor
+# Python library for ZFM-20 and R303A type fingerprint sensors
 
-The PyFingerprint library allows to use the ZhianTec ZFM-20 fingerprint sensor on the Raspberry Pi or other Linux machines.
+The PyFingerprint library allows to use fingerprint sensors following same protocol as the ZhianTec ZFM-20 and R303A fingerprint sensors.
 
 **Note:** The library is inspired by the C++ library from Adafruit Industries:  
 <https://github.com/adafruit/Adafruit-Fingerprint-Sensor-Library>
 
-## Package building
+
+## Installation from source file
+
+**Note:**  This has been tested on the following operating systems:
+   1. This should work properly on Debian 7 (Wheezy), Debian 8 (Jessie), Ubuntu 14 (I pretty much expect it to work on any linux machine). 
+   2. Windows OS (tested on windows 7 & windows 10 and it works)
+   3. Mac OS X (tested on my Yosemite version 10.10.5. But pretty much to expect it to work on your mac)
+**Note**: The library has been tested on ZFM-20 and R303A fingerprint sensors.
+
+Clone this repository:
+
+    ~$ git clone https://github.com/bastianraschke/pyfingerprint.git
+
+Install library dependencies:
+
+    ~$ cd ./pyfingerprint/src/
+    ~$ pip install -r pip-requires.txt
+    
+Install pyfingerprint:
+
+    ~$ python setup.py build
+    ~$ python setup.py install    
+    
+
+## Alternative Installation (Debian)
 
 **Note:** This should work properly on Debian 7 (Wheezy) and Debian 8 (Jessie).
+
+### Package building
 
 First install the packages for building:
 
@@ -22,7 +48,7 @@ Build the package:
     ~$ cd ./pyfingerprint/src/
     ~$ debuild
 
-## Installation
+### Installation
 
 Install the built Debian package:
 
@@ -37,23 +63,43 @@ Allow non-root user "pi" (replace it correctly) to use the serial port devices:
     ~$ sudo usermod -a -G dialout pi
     ~$ sudo reboot
 
+
 ## How to use the library
+
+### Defining the fingerprint device location:
+
+On a windows OS, pyfingerprint assumes this location to be "COM3", otherwise it assumes the location to be "/dev/ttyUSB0"
+
+You can overwrite this behaviour by setting environment variable **FP_DEVICE_LOC**. Set **FP_DEVICE_LOC** to the
+appropriate path where your device is connected. 
 
 ### Enroll a new finger
 
-    ~$ python2 /usr/share/doc/python-fingerprint/examples/example_enroll.py
+Navigate to source project folder, then:
+
+    ~$ cd src/files/examples/
+    ~$ python example_enroll.py
 
 ### Search an enrolled finger
 
-    ~$ python2 /usr/share/doc/python-fingerprint/examples/example_search.py
+Navigate to source project folder, then:
+
+    ~$ cd src/files/examples/
+    ~$ python example_search.py
 
 ### Delete an enrolled finger
 
-    ~$ python2 /usr/share/doc/python-fingerprint/examples/example_delete.py
+Navigate to source project folder, then:
+
+    ~$ cd src/files/examples/
+    ~$ python example_delete.py
 
 ### Download image of a scanned finger
 
-    ~$ python2 /usr/share/doc/python-fingerprint/examples/example_downloadimage.py
+Navigate to source project folder, then:
+
+    ~$ cd src/files/examples/
+    ~$ python example_downloadimage.py
 
 ## Questions
 

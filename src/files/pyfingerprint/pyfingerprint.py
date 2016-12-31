@@ -7,11 +7,14 @@ Copyright (C) 2015 Bastian Raschke <bastian.raschke@posteo.de>
 All rights reserved.
 
 @author: Bastian Raschke <bastian.raschke@posteo.de>
+
+Adjusted for windows by Anthony Anyanwu <antsmc2@gmail.com>
 """
 
 import os
 import serial
-import Image
+from PIL import Image      # This proves to be the easier option than installing the imaging lib
+# import Image
 
 import utilities
 
@@ -108,6 +111,15 @@ FINGERPRINT_PACKETRESPONSEFAIL = 0x0E
 FINGERPRINT_ERROR_TIMEOUT = 0xFF
 FINGERPRINT_ERROR_BADPACKET = 0xFE
 
+FINGERPRINT_DEVICE_LOCATION = os.getenv('FP_DEVICE_LOC', None)       # check if device location is defined in the env
+
+if FINGERPRINT_DEVICE_LOCATION is None:             # if device loc is not defined in env, make some assumptions
+    # If it's windows assume com3 else assume /dev/ttyUSB0
+    if os.name == 'nt':
+        FINGERPRINT_DEVICE_LOCATION = 'COM3'
+    else:
+        FINGERPRINT_DEVICE_LOCATION = '/dev/ttyUSB0'
+
 
 class PyFingerprint(object):
     """
@@ -126,7 +138,7 @@ class PyFingerprint(object):
     __password = None
     __serial = None
 
-    def __init__(self, port = '/dev/ttyUSB0', baudRate = 57600, address = 0xFFFFFFFF, password = 0x00000000):
+    def __init__(self, port = FINGERPRINT_DEVICE_LOCATION, baudRate = 57600, address = 0xFFFFFFFF, password = 0x00000000):
         """
         Constructor
 
@@ -135,9 +147,6 @@ class PyFingerprint(object):
         @param integer(4 bytes) address
         @param integer(4 bytes) password
         """
-
-        if ( os.path.exists(port) == False ):
-            raise ValueError('The fingerprint sensor port "' + port + '" was not found!')
 
         if ( baudRate < 9600 or baudRate > 115200 or baudRate % 9600 != 0 ):
             raise ValueError('The given baudrate is invalid!')
